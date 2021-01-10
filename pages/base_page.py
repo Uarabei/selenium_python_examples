@@ -73,3 +73,8 @@ class BasePage():
         letters = string.ascii_letters
         result_str = ''.join(random.choice(letters) for _ in range(length))
         return result_str
+
+    def prepare_register_test_data(self):
+        email_test_data = self.generate_random_string(8) + '@random.org'
+        password_test_data = self.generate_random_string(10)
+        return email_test_data, password_test_data

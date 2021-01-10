@@ -8,7 +8,8 @@ link_product_page = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-w
 link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
 link_user_product_page = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
 
-@pytest.mark.skip(reason="no way of currently testing this")
+
+@pytest.mark.need_review
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
                                    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer2",
@@ -51,11 +52,13 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.open()
     page.should_be_login_link()
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
     page.go_to_login_page()
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
@@ -70,13 +73,13 @@ class TestUserAddToBasketFromProductPage():
         link = "http://selenium1py.pythonanywhere.com/accounts/login/"
         page = LoginPage(browser, link)
         #prepare test data
-        email_test_data = page.generate_random_string(8) + '@random.org'
-        password_test_data = page.generate_random_string(10)
+        email_test_data, password_test_data = page.prepare_register_test_data()
         #setup step
         page.open()
         page.register_new_user(email_test_data, password_test_data)
         page.should_be_authorized_user()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         page = ProductPage(browser, link_user_product_page)
         page.open()
