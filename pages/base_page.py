@@ -5,9 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
 import math
+import random
+import string
+
 
 class BasePage():
-    def __init__(self, browser, url, timeout=5):
+    def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -61,3 +64,12 @@ class BasePage():
     def go_to_basket_page(self):
         basket_button = self.browser.find_element(*BasePageLocators.CHECK_BASKET_BUTTON)
         basket_button.click()
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
+
+    def generate_random_string(self, length):
+        letters = string.ascii_letters
+        result_str = ''.join(random.choice(letters) for _ in range(length))
+        return result_str
